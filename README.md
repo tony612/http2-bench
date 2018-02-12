@@ -48,3 +48,5 @@ Comparison:
 gun               6.00 K
 chatterbox       0.149 K - 40.29x slower
 ```
+
+![Pingpong Boxplot](bench/pingpong.png?raw=true "Pingpong Boxplot")
