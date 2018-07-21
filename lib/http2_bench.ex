@@ -19,6 +19,43 @@ defmodule Http2Bench do
     end
   end
 
+  def gun_post(conn_pid) do
+    headers = [
+      {"te", "trailers"}
+    ]
+
+    stream_ref = :gun.post(conn_pid, "/grpcPath", headers, <<10, 0>>)
+
+    case :gun.await(conn_pid, stream_ref) do
+      {:response, :fin, _status, _headers} ->
+        :no_data
+
+      {:response, :nofin, _status, _headers} ->
+        {:ok, _body, _trailers} = :gun.await_body(conn_pid, stream_ref)
+    end
+  end
+
+  def gun_grpc(conn_pid) do
+    path = "/grpc.testing.BenchmarkService/UnaryCall"
+
+    headers = [
+      {"content-type", "application/grpc+proto"},
+      {"user-agent", "grpc-elixir/0.3.0-alpha.2"},
+      {"te", "trailers"},
+      {"grpc-timeout", "10S"}
+    ]
+
+    stream_ref = :gun.post(conn_pid, path, headers, <<10, 0>>)
+
+    case :gun.await(conn_pid, stream_ref) do
+      {:response, :fin, _status, _headers} ->
+        :no_data
+
+      {:response, :nofin, _status, _headers} ->
+        {:ok, _body, _tailers} = :gun.await_body(conn_pid, stream_ref)
+    end
+  end
+
   def start_chatterbox do
     {:ok, pid} = :h2_client.start_link(:http, '127.0.0.1', @port)
     pid

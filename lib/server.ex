@@ -13,8 +13,26 @@ defmodule Http2Bench.Server do
 
   defmodule Handler do
     def init(req, s) do
-      req = :cowboy_req.reply(200, %{"content-type" => "text/plain"}, "Hello, world!", req)
-      {:ok, req, s}
+      path = :cowboy_req.path(req)
+
+      case path do
+        "/hello" ->
+          req = :cowboy_req.reply(200, %{"content-type" => "text/plain"}, "Hello, world!", req)
+          {:ok, req, s}
+
+        _ ->
+          req = :cowboy_req.stream_reply(200, req)
+          :cowboy_req.stream_body(<<10, 0>>, :nofin, req)
+
+          trailers = %{
+            "grpc-status" => "0",
+            "grpc-message" => ""
+          }
+
+          req = :cowboy_req.stream_trailers(trailers, req)
+
+          {:ok, req, s}
+      end
     end
   end
 

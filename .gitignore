@@ -24,3 +24,5 @@ http2_bench-*.tar
 
 benchmarks
 log
+
+.elixir_ls

@@ -21,11 +21,10 @@ defmodule Http2Bench.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:gun, github: "ninenines/gun"},
-      {:chatterbox, github: "joedevivo/chatterbox"},
-      {:cowboy, "~> 2.2"},
-      {:ranch, "~> 1.4.0", override: true},
-      {:cowlib, "~> 2.1.0", override: true},
+      # {:chatterbox, github: "joedevivo/chatterbox"},
+      {:cowboy, github: "ninenines/cowboy"},
+      {:gun, github: "ninenines/gun", tag: "1.0.0-rc.1"},
+      {:cowlib, github: "ninenines/cowlib", tag: "2.4.0", override: true},
       {:benchee, "~> 0.11", only: :dev},
       {:benchee_html, "~> 0.4", only: :dev}
     ]
