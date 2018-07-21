@@ -21,17 +21,25 @@ defmodule Http2Bench.Server do
           {:ok, req, s}
 
         _ ->
+          {:ok, body, req} = read_full_body(req)
           req = :cowboy_req.stream_reply(200, req)
-          :cowboy_req.stream_body(<<10, 0>>, :nofin, req)
+          :cowboy_req.stream_body(body, :nofin, req)
 
           trailers = %{
             "grpc-status" => "0",
             "grpc-message" => ""
           }
 
-          req = :cowboy_req.stream_trailers(trailers, req)
+          :cowboy_req.stream_trailers(trailers, req)
 
           {:ok, req, s}
+      end
+    end
+
+    defp read_full_body(req, body \\ "") do
+      case :cowboy_req.read_body(req) do
+        {:ok, data, req} -> {:ok, body <> data, req}
+        {:more, data, req} -> read_full_body(req, body <> data)
       end
     end
   end
