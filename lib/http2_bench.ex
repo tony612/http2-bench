@@ -2,7 +2,9 @@ defmodule Http2Bench do
   @port 50051
 
   def start_gun do
-    {:ok, conn_pid} = :gun.open('127.0.0.1', @port, %{protocols: [:http2]})
+    {:ok, conn_pid} =
+      :gun.open('127.0.0.1', @port, %{protocols: [:http2], transport_opts: [nodelay: true]})
+
     {:ok, :http2} = :gun.await_up(conn_pid)
     conn_pid
   end
