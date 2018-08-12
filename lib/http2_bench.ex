@@ -26,7 +26,7 @@ defmodule Http2Bench do
       {"te", "trailers"}
     ]
 
-    stream_ref = :gun.post(conn_pid, "/grpcPath", headers, <<10, 0>>)
+    stream_ref = :gun.post(conn_pid, "/post", headers, <<10, 0>>)
 
     case :gun.await(conn_pid, stream_ref) do
       {:response, :fin, _status, _headers} ->
@@ -47,7 +47,9 @@ defmodule Http2Bench do
       {"grpc-timeout", "10S"}
     ]
 
-    stream_ref = :gun.post(conn_pid, path, headers, <<10, 0>>)
+    req = HelloRequest.new(name: "Gun")
+
+    stream_ref = :gun.post(conn_pid, path, headers, HelloRequest.encode(req))
 
     case :gun.await(conn_pid, stream_ref) do
       {:response, :fin, _status, _headers} ->

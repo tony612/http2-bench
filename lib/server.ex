@@ -15,25 +15,44 @@ defmodule Http2Bench.Server do
     def init(req, s) do
       path = :cowboy_req.path(req)
 
-      case path do
-        "/hello" ->
-          req = :cowboy_req.reply(200, %{"content-type" => "text/plain"}, "Hello, world!", req)
-          {:ok, req, s}
+      handle(path, req, s)
+    end
 
-        _ ->
-          {:ok, body, req} = read_full_body(req)
-          req = :cowboy_req.stream_reply(200, req)
-          :cowboy_req.stream_body(body, :nofin, req)
+    defp handle("/hello", req, s) do
+      req = :cowboy_req.reply(200, %{"content-type" => "text/plain"}, "Hello, world!", req)
+      {:ok, req, s}
+    end
 
-          trailers = %{
-            "grpc-status" => "0",
-            "grpc-message" => ""
-          }
+    defp handle("/grpc.testing.BenchmarkService/UnaryCall", req, s) do
+      {:ok, body, req} = read_full_body(req)
+      request = HelloRequest.decode(body)
+      reply = HelloReply.new(message: "Hello, #{request.name}")
+      req = :cowboy_req.stream_reply(200, req)
+      :cowboy_req.stream_body(HelloReply.encode(reply), :nofin, req)
 
-          :cowboy_req.stream_trailers(trailers, req)
+      trailers = %{
+        "grpc-status" => "0",
+        "grpc-message" => ""
+      }
 
-          {:ok, req, s}
-      end
+      :cowboy_req.stream_trailers(trailers, req)
+
+      {:ok, req, s}
+    end
+
+    defp handle(_, req, s) do
+      {:ok, body, req} = read_full_body(req)
+      req = :cowboy_req.stream_reply(200, req)
+      :cowboy_req.stream_body(body, :nofin, req)
+
+      trailers = %{
+        "grpc-status" => "0",
+        "grpc-message" => ""
+      }
+
+      :cowboy_req.stream_trailers(trailers, req)
+
+      {:ok, req, s}
     end
 
     defp read_full_body(req, body \\ "") do

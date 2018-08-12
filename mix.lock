@@ -4,10 +4,11 @@
   "benchee_json": {:hex, :benchee_json, "0.5.0", "75878fd9944093ced03e9c214e6e1429da147de43e2f4a4cbc4377294ed5d029", [:mix], [{:benchee, "~> 0.12", [hex: :benchee, optional: false]}, {:jason, "~> 1.0", [hex: :jason, optional: false]}]},
   "chatterbox": {:git, "https://github.com/joedevivo/chatterbox.git", "caec4b077777326cb586210545c28e5675f73394", []},
   "cowboy": {:git, "https://github.com/ninenines/cowboy.git", "a76c32db5e32ab6a6b35ce6625cb3aedcac067b6", []},
-  "cowlib": {:git, "https://github.com/ninenines/cowlib.git", "804d5262a3369623683213b14d6b936066fc7aab", [tag: "2.4.0"]},
+  "cowlib": {:git, "https://github.com/ninenines/cowlib.git", "b1ca51bc78d9e974014e70b820c9296db4ecb4f1", []},
   "deep_merge": {:hex, :deep_merge, "0.1.1", "c27866a7524a337b6a039eeb8dd4f17d458fd40fbbcb8c54661b71a22fffe846", [:mix], []},
-  "gun": {:git, "https://github.com/ninenines/gun.git", "e49f8af96da160b0417d21d5550fedd216acc263", [tag: "1.0.0-rc.1"]},
+  "gun": {:git, "https://github.com/ninenines/gun.git", "f3149399815257b934ca5c47c9b9f2d9de198bc6", []},
   "hpack": {:git, "https://github.com/joedevivo/hpack.git", "6b58b6231e9b6ab83096715120578976f72f4f7c", [tag: "0.2.3"]},
   "jason": {:hex, :jason, "1.1.1", "d3ccb840dfb06f2f90a6d335b536dd074db748b3e7f5b11ab61d239506585eb2", [:mix], [{:decimal, "~> 1.0", [hex: :decimal, repo: "hexpm", optional: true]}], "hexpm"},
+  "protobuf": {:git, "https://github.com/tony612/protobuf-elixir.git", "5d4ed2bcebefad3c2b9b397c1a46b49b41eae7ab", []},
   "ranch": {:git, "https://github.com/ninenines/ranch", "8eaae552ec520605b7f4b0e5943256d2b5e3621c", [ref: "1.5.0"]},
 }

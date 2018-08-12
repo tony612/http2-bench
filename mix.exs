@@ -23,8 +23,9 @@ defmodule Http2Bench.MixProject do
     [
       # {:chatterbox, github: "joedevivo/chatterbox"},
       {:cowboy, github: "ninenines/cowboy"},
-      {:gun, github: "ninenines/gun", tag: "1.0.0-rc.1"},
-      {:cowlib, github: "ninenines/cowlib", tag: "2.4.0", override: true},
+      {:gun, github: "ninenines/gun"},
+      {:cowlib, github: "ninenines/cowlib", override: true},
+      {:protobuf, github: "tony612/protobuf-elixir"},
       {:benchee, "~> 0.11", only: :dev},
       {:benchee_html, "~> 0.4", only: :dev}
     ]
